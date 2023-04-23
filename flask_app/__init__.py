@@ -11,14 +11,14 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 
-# import routes of blueprints
-from .users.routes import users
-from .posts.routes import posts
-
-# variables 
+# Global variables 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+
+# import routes of blueprints
+from .users.routes import users
+from .posts.routes import posts
 
 def page_not_found(e):
     return render_template("404.html"), 404
