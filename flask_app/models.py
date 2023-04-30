@@ -30,8 +30,3 @@ class FoundItem(db.Document):
     description = db.StringField(min_length=5, max_length=500)
     location = db.StringField(required=True, min_length=5, max_length=500)
     found_item = db.ReferenceField(LostItem)
-
-
-class Post(db.Document):
-    # add fields for post
-    pass
