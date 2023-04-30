@@ -25,15 +25,16 @@ class SearchForm(FlaskForm):
 
 
 class LostItemForm(FlaskForm):
-    title = TextAreaField()
     upload = FileField(
-        "Image",
+        "Picture",
         validators=[
             FileRequired(),
             FileAllowed(UploadSet("images", IMAGES), "Upload images only."),
         ],
     )
-    details = TextAreaField("Item Description", validators=[Length(min=5, max=500)])
+    item_description = TextAreaField(
+        "Item Description", validators=[InputRequired(), Length(min=5, max=500)]
+    )
     location = TextAreaField(
         "Last Remembered Location", validators=[Length(min=5, max=500)]
     )
@@ -42,13 +43,18 @@ class LostItemForm(FlaskForm):
 
 class FoundItemForm(FlaskForm):
     upload = FileField(
-        "Image",
+        "Picture",
         validators=[
             FileRequired(),
             FileAllowed(UploadSet("images", IMAGES), "Upload images only."),
         ],
     )
-    location = TextAreaField("Found Location", validators=[Length(min=5, max=500)])
+    item_description = TextAreaField(
+        "Item Description", validators=[Length(min=5, max=500)]
+    )
+    location = TextAreaField(
+        "Found Location", validators=[InputRequired(), Length(min=5, max=500)]
+    )
     submit = SubmitField("Submit Found Item")
 
 
