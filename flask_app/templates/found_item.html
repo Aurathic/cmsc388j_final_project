@@ -3,5 +3,22 @@
 
 <p> found item page </p>
 
+<div class="row">
+    <div class="col">
+        <img class="propic" src="data:image/png;base64,{{item.image}}" alt="image">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <!-- Add description -->
+        {{item.description}}
+    </div>
+    <div class="col">
+        <!-- Add description -->
+        {{item.location}}
+    </div>
+</div>
+
 
 {% endblock %}
