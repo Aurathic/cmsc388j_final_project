@@ -22,6 +22,8 @@ class LostItem(db.Document):
     person = db.ReferenceField(User, required=True)
     description = db.StringField(required=True, min_length=5, max_length=500)
     location = db.StringField(min_length=5, max_length=500)
+    item_pic = db.ImageField(required=False)
+    time = db.DateTimeField(required=True)
     # circular dependency so was crashing
     #found_item = db.ReferenceField(FoundItem)
 
@@ -31,5 +33,7 @@ class FoundItem(db.Document):
     description = db.StringField(min_length=5, max_length=500)
     location = db.StringField(required=True, min_length=5, max_length=500)
     lost_item = db.ReferenceField(LostItem)
+    item_pic = db.ImageField(required=True)
+    time = db.DateTimeField(required=True) 
 
 LostItem.found_item = db.ReferenceField(FoundItem)
