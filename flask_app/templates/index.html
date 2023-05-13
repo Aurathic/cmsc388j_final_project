@@ -1,6 +1,42 @@
 {% extends "header.html" %}
-{% block content %}
 
 <p> index html page</p>
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <!-- SearchForm -->
+        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {{ form.csrf_token }}
+            {{ form.item_description(class="form-control", placeholder="Describe the item you've lost / found") }}
+
+            {% if form.item_description.errors %}
+            <div class="alert alert-warning" role="alert">
+                {% for error in form.item_description.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {{ form.search_lost(class="btn btn-outline-success") }}
+            {{ form.search_found(class="btn btn-outline-success") }}
+        </form>
+    </div>
+    <!--
+    <div class="col">
+        <h2>Please use the search bar to search for movies! Then you can review them </h2>
+    </div>
+    -->
+</div>
 
 {% endblock %}

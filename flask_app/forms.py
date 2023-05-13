@@ -18,10 +18,11 @@ from .models import User
 
 
 class SearchForm(FlaskForm):
-    search_query = StringField(
-        "Query", validators=[InputRequired(), Length(min=1, max=100)]
+    item_description = StringField(
+        "ItemDescription", validators=[InputRequired(), Length(min=1, max=100)]
     )
-    submit = SubmitField("Search")
+    search_lost = SubmitField("SearchLost")
+    search_found = SubmitField("SearchFound")
 
 
 class LostItemForm(FlaskForm):

@@ -8,18 +8,18 @@ from flask_login import (
 )
 
 from ..models import User, LostItem, FoundItem
-#from ..forms import 
+from ..forms import SearchForm
 
 posts = Blueprint('posts', __name__)
 
 @posts.route("/", methods=["GET", "POST"])
 def index():
-    #form = SearchForm()
+    form = SearchForm()
 
     #if form.validate_on_submit():
     #    return redirect(url_for("movies.query_results", query=form.search_query.data))
 
-    return render_template("index.html")
+    return render_template("index.html",form=form)
 
 @posts.route("/found_items", methods=["GET", "POST"])
 def found_item():
