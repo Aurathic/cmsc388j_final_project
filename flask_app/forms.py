@@ -19,14 +19,16 @@ from .models import User
 
 class SearchForm(FlaskForm):
     item_description = StringField(
-        "ItemDescription", validators=[InputRequired(), Length(min=1, max=100)]
+        "Item Description", validators=[InputRequired(), Length(min=1, max=100)]
     )
-    search_lost = SubmitField("SearchLost")
-    search_found = SubmitField("SearchFound")
+    search_lost = SubmitField("Search lost items")
+    search_found = SubmitField("Search found items")
 
 
 class LostItemForm(FlaskForm):
-    upload = FileField(
+    reference = TextAreaField("Reference")
+    
+    picture = FileField(
         "Picture",
         validators=[
             FileRequired(),
@@ -43,7 +45,9 @@ class LostItemForm(FlaskForm):
 
 
 class FoundItemForm(FlaskForm):
-    upload = FileField(
+    reference = TextAreaField("Reference")
+
+    picture = FileField(
         "Picture",
         validators=[
             FileRequired(),

@@ -1,6 +1,37 @@
 {% extends "header.html" %}
 {% block content %}
+{% if error_msg %}
+<p>{{ error_msg }}</p>
+{% endif %}
 
-<p> query results page </p>
+<div class="container-fluid">
+    {% if results %}
+    {% for result in results %}
+    <div class="media">
+        <!--<img src="{{ result.poster_url }}" class="mr-3 movie" alt="missing">-->
+        <div class="media-body">
+            <h5 class="mt-0">
+                <a href="{{ url_for('posts.found_item', item=result.description) }}">
+                    {{ result.description}}</a>
+                <!-- ({{ result.year }}) -->
+            </h5>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+</div>
+
+<p>Is your item not listed here?</p>
+{% if item_type == 'lost' %}
+<a href="{{ url_for('posts.new_lost_item') }}">
+    <h4>Make a new post for a lost item!</h4>
+</a>
+{% else %}
+<a href="{{ url_for('posts.new_found_item') }}">
+    <h4>Make a new post for a found item!</h4>
+</a>
+{% endif %}
 
 {% endblock %}

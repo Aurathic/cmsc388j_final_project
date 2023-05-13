@@ -1,0 +1,31 @@
+{% extends "header.html" %}
+{% block content %}
+
+<h1>Lost Item Form</h1>
+<div class="row">
+    <div class="col">
+        <form action="" method="post">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.reference(class="form-control form-control-lg") }}
+
+                {{ form.picture(class="form-control form-control-lg") }}
+
+                {% if form.picture.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.picture.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {{ form.item_description(class="form-control form-control-lg") }}
+
+                {{ form.location(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}>
