@@ -1,6 +1,71 @@
 {% extends "header.html" %}
 {% block content %}
 
-<p> {user.username} user account html page</p>
+<div class="row">
+    <h2>Welcome back, {{current_user.get_id()}}!</h2>
+</div>
+<div class="row">
+    <p>To update your account fill out a relevant form below.</p>
+</div>
+<div class="row">
+    <div class="form-container">
+        {# Username Update Form #}
+        <h3>Change username</h3>
+        <form method="POST" action="">
+            {{ uname_form.csrf_token }}
+            <div class="form-group">
+                {{ uname_form.new_username(class="form-control form-field", placeholder='New username') }}
 
+                {% if uname_form.new_username.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in uname_form.new_username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ uname_form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="form-container">
+        {# Password Update Form #}
+        <h3>Change Password</h3>
+        <form method="POST" action="">
+            {{ pw_form.csrf_token }}
+            <div class="form-group">
+                {{ pw_form.new_password(class="form-control form-field", placeholder='New password') }}
+
+                {% if pw_form.new_password.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in pw_form.new_password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}                     
+            </div>
+            <div class="form-group">
+                {{ pw_form.confirm_new_password(class="form-control form-field", placeholder='Confirm password') }}
+
+                {% if pw_form.confirm_new_password.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in pw_form.confirm_new_password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}                     
+            </div>
+            {{ pw_form.psubmit(class="btn btn-primary") }}
+
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {# Link to see public facing profile of the current user #}
+    <a href="{{url_for('users.user_profile', username=current_user.get_id())}}">Click here to see your public profile</a>
+</div>
 {% endblock %}

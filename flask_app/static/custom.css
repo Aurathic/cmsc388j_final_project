@@ -1,0 +1,14 @@
+.form-container {
+    /*
+    height: 250px;
+    width: 350px;
+    */
+    justify-content: left;
+    align-items: left;
+    display:flex;
+    flex-direction: row;
+}
+
+.form-field {
+    width: 225px;
+}

@@ -92,8 +92,8 @@ class LoginForm(FlaskForm):
 
 
 class UpdateUsernameForm(FlaskForm):
-    username = StringField(
-        "Username", validators=[InputRequired(), Length(min=1, max=40)]
+    new_username = StringField(
+        "New Username", validators=[InputRequired(), Length(min=1, max=40)]
     )
     submit = SubmitField("Update Username")
 
@@ -102,3 +102,14 @@ class UpdateUsernameForm(FlaskForm):
             user = User.objects(username=username.data).first()
             if user is not None:
                 raise ValidationError("That username is already taken")
+
+class ChangePasswordForm(FlaskForm):
+    new_password = StringField(
+        "New Password", validators=[InputRequired(), Length(min=1, max=40)]
+    )
+    confirm_new_password = PasswordField(
+        "Confirm New Password", validators=[InputRequired(), EqualTo("new_password")]
+    )
+
+    psubmit = SubmitField("Change Password")
+

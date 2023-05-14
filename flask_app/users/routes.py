@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, ChangePasswordForm
 from .. import bcrypt
 
 from ..models import User, LostItem, FoundItem
@@ -70,13 +70,38 @@ def logout():
 @login_required
 def account():
     username_form = UpdateUsernameForm()
+    password_form = ChangePasswordForm()
 
     if username_form.validate_on_submit():
         # current_user.username = username_form.username.data
-        current_user.modify(username=username_form.username.data)
+        current_user.modify(username=username_form.new_username.data)
         current_user.save()
-        return redirect(url_for("users.account"))
+
+        flash('Username successfully updated. Please login with your new username.')
+        return redirect(url_for("users.login"))
     
+    if password_form.validate_on_submit():
+        hashed = bcrypt.generate_password_hash(password_form.new_password.data).decode("utf-8")
+        current_user.modify(password=hashed)
+        current_user.save()
+        logout_user()
+        flash('Password successfully updated. Please login with your new password.')
+        return redirect(url_for("users.login"))        
+
     return render_template("user_account.html", 
                            title="Account",
-                           username_form=username_form)
+                           uname_form=username_form,
+                           pw_form=password_form)
+
+@users.route("/user/<username>")
+def user_profile(username):
+    user = None
+    try:
+        user = User.objects(username=username).first()
+        if user is None:
+            raise Exception('The user you are looking for doesn\'t exist.')
+    except Exception as e:
+        return render_template("user_profile.html", error_msg=str(e))   
+
+    username = user.get_id()
+    return render_template("user_profile.html", username=username)
