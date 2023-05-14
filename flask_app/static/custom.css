@@ -1,4 +1,17 @@
 /* 404 error page */ 
+.form-container {
+    display:block;
+    justify-content: left;
+    align-items: left;
+    display:flex;
+    flex-direction: row;
+}
+
+.form-field {
+    width: 225px;
+}
+
+/*
 .error-404-heading {
     color: red;
     font-weight: bold;
@@ -12,25 +25,10 @@
 }
 
 .error-404-page {
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height:100vh;
 }
-/* forms for user account related */
-.form-container {
-    /*
-    height: 250px;
-    width: 350px;
-    */
-    justify-content: left;
-    align-items: left;
-    display:flex;
-    flex-direction: row;
-}
-
-.form-field {
-    width: 225px;
-}
-
+*/

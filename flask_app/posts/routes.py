@@ -11,6 +11,12 @@ from flask_login import (
 from ..models import User, LostItem, FoundItem
 from ..forms import *
 
+# other imports
+import io
+import base64
+import datetime
+
+
 posts = Blueprint('posts', __name__)
 
 @posts.route("/", methods=["GET", "POST"])
@@ -49,6 +55,24 @@ def new_lost_item(reference):
     # TODO: Pass in previous fields
     form = LostItemForm()
 
+    if form.validate_on_submit():
+        lost_item = LostItem(
+            person = current_user._get_current_object(),
+            description = form.item_description.data,
+            location = form.location.data, 
+            time = datetime.datetime.now,
+            found_item = None,
+            item_pic = None
+        )
+            # handle picture data
+        img = form.picture.data
+
+        if img is not None:
+            filename = secure_filename(img.filename)
+            content_type = f'images/{filename[-3:]}'
+            lost_item.item_pic.replace(img.stream, content_type=content_type)
+
+        lost_item.save()
     return render_template("items/new_lost_item.html", form=form)
 
 @posts.route('/new/found_item', defaults={'reference': None})
