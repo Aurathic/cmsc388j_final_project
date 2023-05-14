@@ -32,7 +32,8 @@ class LostItemForm(FlaskForm):
         "Picture",
         validators=[
             FileRequired(),
-            FileAllowed(UploadSet("images", IMAGES), "Upload images only."),
+            #FileAllowed(UploadSet('images', IMAGES), "Upload images only."),
+            FileAllowed(['jpg', 'png'], "Upload images only."),
         ],
     )
     item_description = TextAreaField(

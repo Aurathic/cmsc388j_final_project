@@ -4,7 +4,7 @@
 <h1>Lost Item Form</h1>
 <div class="row">
     <div class="col">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <div class="form-group">
                 {{ form.reference.label(class="form-control-label")}}
