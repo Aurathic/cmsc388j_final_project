@@ -1,4 +1,17 @@
 {% extends "header.html" %}
 {% block content %}
-    <p>{{username}} public facing profile</p>
+<p>{{username}} public facing profile</p>
+<div class="row">
+    <h1>{{username}} </h1>
+</div>
+<div class="row">
+    <h3>User stats</h3>
+    <div class="col">
+        <small class="float-right">[X num]posts</small>
+    </div>
+</div>
+<div class="row">
+    <p>Posts like query results here</p>
+</div>
+
 {% endblock %}
