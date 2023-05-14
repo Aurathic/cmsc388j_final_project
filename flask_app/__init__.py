@@ -22,7 +22,7 @@ from .users.routes import users
 from .posts.routes import posts
 
 def page_not_found(e):
-    return render_template("404.html"), 404
+    return render_template("404.html", title='Page not found', error=e), 404
 
 def create_app(test_config=None):
     app = Flask(__name__)

@@ -1,3 +1,24 @@
+/* 404 error page */ 
+.error-404-heading {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-404-msg {
+    max-width: 25%;
+    display: inline-block;
+    text-align: center; 
+}
+
+.error-404-page {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+}
+/* forms for user account related */
 .form-container {
     /*
     height: 250px;
@@ -12,3 +33,4 @@
 .form-field {
     width: 225px;
 }
+
