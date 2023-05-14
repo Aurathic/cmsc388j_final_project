@@ -56,7 +56,6 @@ def new_lost_item(reference):
     form = LostItemForm()
 
     if form.validate_on_submit():
-        print('check validated')
         lost_item = LostItem(
             person = current_user._get_current_object(),
             description = form.item_description.data,
@@ -67,17 +66,14 @@ def new_lost_item(reference):
         )
             # handle picture data
         img = form.picture.data
-        print('check1')
         if img is not None:
             filename = secure_filename(img.filename)
             content_type = f'images/{filename[-3:]}'
             lost_item.item_pic.replace(img.stream, content_type=content_type)
-            print('check3')
 
         lost_item.save()
         return redirect(url_for("posts.index")) # temporary change this
     
-    print('check4')
     return render_template("items/new_lost_item.html", form=form)
 
 @posts.route('/new/found_item', defaults={'reference': None})
