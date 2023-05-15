@@ -24,14 +24,8 @@
 </div>
 
 <p>Is your item not listed here?</p>
-{% if item_type == 'lost' %}
-<a href="{{ url_for('posts.new_lost_item') }}">
-    <h4>Make a new post for a lost item!</h4>
+<a href="{{ url_for('posts.new', item_type=item_type) }}">
+    <h4>Make a new post for a {{item_type}} item!</h4>
 </a>
-{% else %}
-<a href="{{ url_for('posts.new_found_item') }}">
-    <h4>Make a new post for a found item!</h4>
-</a>
-{% endif %}
 
 {% endblock %}

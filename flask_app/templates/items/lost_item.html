@@ -20,4 +20,9 @@
     </div>
 </div>
 
+<a href="{{ url_for('posts.new', item_type='found', reference=item.id) }}">
+    <h4>If you've found this item, fill out this form</h4>
+</a>
+
+
 {% endblock content %}
