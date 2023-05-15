@@ -2,3 +2,4 @@
 venv
 flask_app/config.py
 flask_app/config.py
+.env

@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
-
+from flask_mail import Message
 from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, ChangePasswordForm
-from .. import bcrypt
+from .. import bcrypt, mail
 
 from ..models import User, LostItem, FoundItem
 
@@ -18,6 +18,12 @@ def register():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(username=form.username.data, email=form.email.data, password=hashed)
         user.save()
+
+        msg = Message("Account creation",
+            sender="lostandfound31415@gmail.com",
+            recipients=["whiskers2398@gmail.com"])
+        msg.body = 'Hello ' + str(form.username.data) + ',\n\nThis is a confirmation you are now registered as a user on Lost and Found.'
+        mail.send(msg)
 
         return redirect(url_for("users.login"))
 
