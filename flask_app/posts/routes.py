@@ -96,6 +96,7 @@ def new(item_type, reference):
 
         # Update the reference in the other object
         reference_item.reference = item
+        reference_item.save()
 
         return redirect(url_for("posts.item", item_type=item_type, item_id=item.id))
 
