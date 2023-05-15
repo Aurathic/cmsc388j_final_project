@@ -13,6 +13,7 @@ from wtforms.validators import (
     EqualTo,
     ValidationError,
 )
+from . import photos
 
 from .models import User
 
@@ -32,8 +33,10 @@ class LostItemForm(FlaskForm):
         "Picture",
         validators=[
             FileRequired(),
-            #FileAllowed(UploadSet('images', IMAGES), "Upload images only."),
-            FileAllowed(['jpg', 'png'], "Upload images only."),
+            #FileAllowed(UploadSet('photos', IMAGES), "Upload images only."),
+            #FileAllowed(['jpg', 'png'], "Upload images only."),
+            #FileAllowed(photos, "Upload images only."),
+            FileAllowed(UploadSet('photos', IMAGES), "Upload images only.")
         ],
     )
     item_description = TextAreaField(
@@ -52,7 +55,8 @@ class FoundItemForm(FlaskForm):
         "Picture",
         validators=[
             FileRequired(),
-            FileAllowed(UploadSet("images", IMAGES), "Upload images only."),
+            #FileAllowed(photos, "Upload images only."),
+            FileAllowed(UploadSet('photos', IMAGES), "Upload images only.")
         ],
     )
     item_description = TextAreaField(

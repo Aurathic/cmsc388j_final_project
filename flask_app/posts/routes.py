@@ -16,6 +16,8 @@ import io
 import base64
 import datetime
 
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+
 
 posts = Blueprint('posts', __name__)
 
@@ -39,9 +41,9 @@ def query(query, item_type):
     # Find all (lost,found) items which have *not* been associated with a (found,lost) item
     # and contain the query as a substring in their description
     if item_type == 'lost':
-        results = LostItem.objects(found_item__exists=False, description__icontains=query)
+        results = LostItem.objects(reference__exists=False, description__icontains=query)
     elif item_type == 'found':
-        results = FoundItem.objects(lost_item__exists=False, description__icontains=query)
+        results = FoundItem.objects(reference__exists=False, description__icontains=query)
     else:
         results = None
     # Display
@@ -53,13 +55,22 @@ def new(item_type, reference):
     # TODO: Pass in previous fields
     form = LostItemForm() if item_type == "lost" else FoundItemForm()
 
+    print("\n\n",FoundItem.objects,"\n\n",)
+    print("\n\n",LostItem.objects,"\n\n",)
+    
     if form.validate_on_submit() and current_user.is_authenticated:
+        # Find the associated reference
+        reference_item = reference and (
+            FoundItem.objects(id=reference).first() if item_type == "lost"
+            else LostItem.objects(id=reference).first())
+        
+        # New object parameters
         params = {
             "person": current_user._get_current_object(),
             "description": form.item_description.data,
             "location": form.location.data, 
             "time": datetime.datetime.now,
-            "found_item": None,
+            "reference": reference_item,
             "item_pic": None
         }
         item = LostItem(**params) if item_type == "lost" else FoundItem(**params) 
@@ -70,58 +81,12 @@ def new(item_type, reference):
             filename = secure_filename(img.filename)
             content_type = f'images/{filename[-3:]}'
             item.item_pic.replace(img.stream, content_type=content_type)
-        # reference item
-        if reference:
-            # TODO test!
-            #lost_item.found_item.replace(FoundItem.objects(id=reference).first())
-            pass
 
         item.save()
-        return redirect(url_for("posts.index")) # temporary change this
-    
-    return render_template(f"items/new_{item_type}_item.html", form=form)
+        return redirect(url_for("posts.item", item_type=item_type, item_id=item.id))
 
-"""
-@posts.route('/new/lost_item', defaults={'reference': None}, methods=["GET", "POST"])
-@posts.route("/new/lost_item/<reference>", methods=["GET", "POST"])
-def new_lost_item(reference):
-    # TODO: Pass in previous fields
-    form = LostItemForm()
+    return render_template(f"items/new_item.html", form=form, item_type=item_type)
 
-    if form.validate_on_submit() and current_user.is_authenticated:
-        lost_item = LostItem(
-            person = current_user._get_current_object(),
-            description = form.item_description.data,
-            location = form.location.data, 
-            time = datetime.datetime.now,
-            found_item = None,
-            item_pic = None
-        )
-        # handle picture data
-        img = form.picture.data
-        if img is not None:
-            filename = secure_filename(img.filename)
-            content_type = f'images/{filename[-3:]}'
-            lost_item.item_pic.replace(img.stream, content_type=content_type)
-        # reference item
-        if reference:
-            # TODO test!
-            #lost_item.found_item.replace(FoundItem.objects(id=reference).first())
-            pass
-
-        lost_item.save()
-        return redirect(url_for("posts.index")) # temporary change this
-    
-    return render_template("items/new_lost_item.html", form=form)
-
-@posts.route('/new/found_item', defaults={'reference': None})
-@posts.route("/new/found_item/<reference>", methods=["GET", "POST"])
-def new_found_item(reference):
-    # TODO: Pass in previous fields
-    form = FoundItemForm()
-
-    return render_template("items/new_found_item.html", form=form)
-"""
 
 @posts.route("/item/<item_type>/<item_id>", methods=["GET", "POST"])
 def item(item_type, item_id=None):
@@ -130,4 +95,8 @@ def item(item_type, item_id=None):
         item = LostItem.objects(id=item_id).first()
     else:
         item = FoundItem.objects(id=item_id).first()
+    
+    # Get the associated reference object if it exists (?) 
+    
+    
     return render_template(f"items/item.html", item_type=item_type, item=item)

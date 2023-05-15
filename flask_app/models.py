@@ -23,7 +23,7 @@ class LostItem(db.Document):
     item_pic = db.ImageField(required=False)
     time = db.DateTimeField(required=True)
     #found_item = db.ReferenceField(FoundItem)
-    found_item = db.GenericReferenceField()
+    reference = db.GenericReferenceField()
 
 
 class FoundItem(db.Document):
@@ -33,7 +33,7 @@ class FoundItem(db.Document):
     item_pic = db.ImageField(required=True)
     time = db.DateTimeField(required=True) 
     #lost_item = db.ReferenceField(LostItem)
-    lost_item = db.GenericReferenceField()
+    reference = db.GenericReferenceField()
 
 #FoundItem.lost_item = db.ReferenceField(LostItem)
 #LostItem.found_item = db.ReferenceField(FoundItem)

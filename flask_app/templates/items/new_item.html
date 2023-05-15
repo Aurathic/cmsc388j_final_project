@@ -1,0 +1,52 @@
+{% extends "header.html" %}
+{% block content %}
+
+<h1>{{item_type.capitalize()}} Item Form</h1>
+<div class="row">
+    <div class="col">
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.picture.label(class="form-control-label")}}
+                {{ form.picture(class="form-control form-control-lg") }}
+
+                {% if form.picture.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.picture.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.item_description.label(class="form-control-label")}}
+                {{ form.item_description(class="form-control form-control-lg") }}
+
+                {% if form.item_description.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.item_description.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.location.label(class="form-control-label")}}
+                {{ form.location(class="form-control form-control-lg") }}
+
+                {% if form.location.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.location.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}>

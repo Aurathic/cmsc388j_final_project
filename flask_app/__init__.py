@@ -9,6 +9,7 @@ from flask_login import (
     login_required,
 )
 from flask_bcrypt import Bcrypt
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.utils import secure_filename
 from PIL import Image
 #from flaskext.uploads import UploadSet, configure_uploads
@@ -17,6 +18,8 @@ from PIL import Image
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+
+photos = UploadSet('photos', IMAGES)
 
 # import routes of blueprints
 from .users.routes import users
@@ -42,12 +45,10 @@ def create_app(test_config=None):
     app.register_error_handler(404, page_not_found)
 
 
-    """
-    app = Flask(__name__)
-    app.config['UPLOADED_CSVFILES_DEST'] = '/var/uploads'
-    csvfiles = UploadSet('csvfiles', ('csv',))
-    configure_uploads(app, (csvfiles,))
-    """
+    app.config['UPLOADED_PHOTOS_DEST'] = '.'
+    
+    configure_uploads(app, (photos,))
+    
     login_manager.login_view = "users.login"
 
     return app
