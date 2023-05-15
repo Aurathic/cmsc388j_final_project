@@ -7,12 +7,7 @@
 <div class="d-flex flex-wrap align-items-stretch justify-content-center p-2">
     {% for result in results %}
     <div class="card m-2 p-2 expand-on-hover" style="width: 12rem; position: relative;">
-        {% if results_pic[result] %}
-            <p>attempting to load image</p>
-            <img src="data:image/png;base64,{{ results_pic[results] }}" class="mr-3 movie" alt="">
-        {% else %}
-            <img src="/static/noimagedefault.png" class="mr-3 movie" alt="">
-        {% endif %}
+        <img src="data:image/png;base64,{{ result.b64_image }}" class="mr-3 movie" alt="item picture">
         {# <img src="{{ result.poster_url }}" class="card-img-top movie-poster" alt="{{ result.title }} poster"> #}
         <div class="card-body d-flex flex-column">
             <h5 class="card-title">

@@ -48,15 +48,13 @@ def query(query, item_type):
         print('check2')
         for r in results:
             print('check3 lost item id: ' + str(r.id))
-            pic = get_lost_item_b64_img(r.id)
-            results_pic[r] = pic 
     elif item_type == 'found':
         results = FoundItem.objects(reference__exists=False, description__icontains=query)
     else:
         results = None
     # Display
 
-    return render_template("query.html", results=results, results_pic=results_pic, item_type=item_type)
+    return render_template("query.html", results=results, item_type=item_type)
 
 @posts.route('/new/<item_type>', defaults={'reference': None}, methods=["GET", "POST"])
 @posts.route("/new/<item_type>/<reference>", methods=["GET", "POST"])
@@ -108,19 +106,13 @@ def item(item_type, item_id=None):
     # Pass in lost item object from DB
     if item_type == 'lost':
         item = LostItem.objects(id=item_id).first()
-        image = get_lost_item_b64_img(item_id)
     else:
         item = FoundItem.objects(id=item_id).first()
     
     # Get the associated reference object if it exists (?) 
     
     
-    return render_template(f"items/item.html", item_type=item_type, item=item, image=image)
+    return render_template(f"items/item.html", item_type=item_type, item=item)
 
 
 ################# Helper ####################
-def get_lost_item_b64_img(post_id):
-    post = LostItem.objects(id=post_id).first()
-    bytes_im = io.BytesIO(post.item_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode()
-    return image

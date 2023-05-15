@@ -1,3 +1,5 @@
+import base64
+import io
 from flask_login import UserMixin
 from . import db, login_manager
 from . import config
@@ -25,6 +27,17 @@ class LostItem(db.Document):
     #found_item = db.ReferenceField(FoundItem)
     reference = db.GenericReferenceField()
 
+    @property
+    def b64_image(self):
+        print(self.item_pic)
+        if self.item_pic:
+            file = self.item_pic
+        else:
+            file = open("flask_app/static/noimagedefault.png", "rb")
+        image_bytes = io.BytesIO(file.read())
+        image = base64.b64encode(image_bytes.getvalue()).decode()
+        return image
+
 
 class FoundItem(db.Document):
     person = db.ReferenceField(User, required=True)
@@ -34,6 +47,16 @@ class FoundItem(db.Document):
     time = db.DateTimeField(required=True) 
     #lost_item = db.ReferenceField(LostItem)
     reference = db.GenericReferenceField()
+
+    def b64_image(self):
+        print(self.item_pic)
+        if self.item_pic:
+            file = self.item_pic
+        else:
+            file = open("flask_app/static/noimagedefault.png", "rb")
+        image_bytes = io.BytesIO(file.read())
+        image = base64.b64encode(image_bytes.getvalue()).decode()
+        return image
 
 #FoundItem.lost_item = db.ReferenceField(LostItem)
 #LostItem.found_item = db.ReferenceField(FoundItem)
