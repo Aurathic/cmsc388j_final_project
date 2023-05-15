@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from flask_uploads import UploadSet, IMAGES
-from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
+from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField, HiddenField
 from wtforms.validators import (
     InputRequired,
     DataRequired,
@@ -29,16 +29,18 @@ class SearchForm(FlaskForm):
 class LostItemForm(FlaskForm):
     reference = TextAreaField("Reference")
     
+   
     picture = FileField(
         "Picture",
         validators=[
-            FileRequired(),
+            #FileRequired(),
             #FileAllowed(UploadSet('photos', IMAGES), "Upload images only."),
             #FileAllowed(['jpg', 'png'], "Upload images only."),
             #FileAllowed(photos, "Upload images only."),
             FileAllowed(UploadSet('photos', IMAGES), "Upload images only.")
         ],
     )
+    hidden_image = HiddenField()
     item_description = TextAreaField(
         "Item Description", validators=[InputRequired(), Length(min=5, max=500)]
     )
@@ -51,10 +53,11 @@ class LostItemForm(FlaskForm):
 class FoundItemForm(FlaskForm):
     reference = TextAreaField("Reference")
 
+    hidden_image = HiddenField()
     picture = FileField(
         "Picture",
         validators=[
-            FileRequired(),
+            #FileRequired(),
             #FileAllowed(photos, "Upload images only."),
             FileAllowed(UploadSet('photos', IMAGES), "Upload images only.")
         ],

@@ -43,7 +43,7 @@ class FoundItem(db.Document):
     person = db.ReferenceField(User, required=True)
     description = db.StringField(min_length=5, max_length=500)
     location = db.StringField(required=True, min_length=5, max_length=500)
-    item_pic = db.ImageField(required=True)
+    item_pic = db.ImageField(required=False)
     time = db.DateTimeField(required=True) 
     #lost_item = db.ReferenceField(LostItem)
     reference = db.GenericReferenceField()

@@ -10,6 +10,41 @@
             <button id="captureButton">◎</button>
 
             <script>
+                // Used below
+                function base64ToBlob(base64) {
+                    var binaryString = window.atob(base64);
+                    var bytes = new Uint8Array(binaryString.length);
+                    for (var i = 0; i < binaryString.length; i++) {
+                        bytes[i] = binaryString.charCodeAt(i);
+                    }
+                    return new Blob([bytes], { type: 'application/octet-stream' });
+                }
+
+                function dataURItoBlob(dataURI) {
+                    // convert base64 to raw binary data held in a string
+                    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+                    var byteString = atob(dataURI.split(',')[1]);
+
+                    // separate out the mime component
+                    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+                    // write the bytes of the string to an ArrayBuffer
+                    var ab = new ArrayBuffer(byteString.length);
+
+                    // create a view into the buffer
+                    var ia = new Uint8Array(ab);
+
+                    // set the bytes of the buffer to the correct values
+                    for (var i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
+                    }
+
+                    // write the ArrayBuffer to a blob, and you're done
+                    var blob = new Blob([ab], { type: mimeString });
+                    return blob;
+
+                }
+
                 // Access the webcam stream and display it in the video element
                 navigator.mediaDevices.getUserMedia({ video: true })
                     .then(function (stream) {
@@ -33,10 +68,13 @@
                     context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
                     // Convert the canvas content to a base64-encoded image
-                    var imageDataURL = canvas.toDataURL('image/png');
+                    const imageDataURL = canvas.toDataURL('image/png');
+                    const imageDataBlob = dataURItoBlob(imageDataURL);
+
+
 
                     // Send the image data to the server using an AJAX request
-                    var xhr = new XMLHttpRequest();
+                    /*var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'capture', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.onreadystatechange = function () {
@@ -44,8 +82,47 @@
                             console.log('Image captured and saved');
                         }
                     };
-                    xhr.send(JSON.stringify({ image_data: imageDataURL }));
+                    xhr.send(JSON.stringify({ image_data: imageDataURL })); */
+
+
+                    // Create a Blob object from the base64 value
+                    console.log(0)
+                    var blob = dataURItoBlob(imageDataURL);
+                    console.log(1)
+
+                    document.getElementById('hidden_image').value = imageDataURL;
+                    console.log("added " + imageDataURL + " to hidden image");
+
+                    // Create a File object from the Blob
+                    //var file = new File([blob], 'image.png', { type: 'image/png' });
+                    //console.log(2)
+
+                    // Create a FileList object containing the File object
+                    //var fileList = new FileList();
+                    //console.log(3)
+                    //fileList.add(file);
+
+                    // Find and update the file input field
+                    //fileinput = document.getElementById("picture");
+                    //console.log(fileinput)
+                    //fileinput.files = dataTransfer.files;
+                    // Assign the FileList object to the files property of the file input
+                    //fileInput.files = fileList;
+                    //fileinput.files = [file];
+
+                    /*
+                    pic_elem = document.getElementById("picture")
+                    console.log(imageDataURL);
+                    console.log(imageDataBlob); // <input id="picture" ...>
+                    console.log(pic_elem.value); // "" (empty string)
+                    console.log(pic_elem.value = ((console.log(imageDataBlob) && imageDataBlob))); // Error: "An attempt was made to use an object that is not, or is no longer, usable"
+                    console.log(imageDataURL);
+                    //document.getElementById("picture").value = imageDataURL;
+                    //document.getElementById("picture").value = imageDataBlob;
+                    */
                 });
+
+
             </script>
         </div>
 
@@ -54,6 +131,7 @@
             <div class="form-group">
                 {{ form.picture.label(class="form-control-label")}}
                 {{ form.picture(class="form-control form-control-lg") }}
+                {{ form.hidden_image(class="form-control form-control-lg") }}
 
                 {% if form.picture.errors %}
                 <div class="alert alert-warning" role="alert">
