@@ -21,7 +21,7 @@ def register():
 
         msg = Message("Account creation",
             sender="lostandfound31415@gmail.com",
-            recipients=["whiskers2398@gmail.com"])
+            recipients=[form.email.data])
         msg.body = 'Hello ' + str(form.username.data) + ',\n\nThis is a confirmation you are now registered as a user on Lost and Found.'
         mail.send(msg)
 
