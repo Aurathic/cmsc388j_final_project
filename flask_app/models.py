@@ -48,6 +48,7 @@ class FoundItem(db.Document):
     #lost_item = db.ReferenceField(LostItem)
     reference = db.GenericReferenceField()
 
+    @property
     def b64_image(self):
         print(self.item_pic)
         if self.item_pic:
