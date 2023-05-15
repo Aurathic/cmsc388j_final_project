@@ -14,7 +14,6 @@
     width: 225px;
 }
 
-/*
 .error-404-heading {
     color: red;
     font-weight: bold;
@@ -34,9 +33,6 @@
     align-items: center;
     height:100vh;
 }
-*/
-
-
 
 .card-body>img {
     max-width: 200;
@@ -51,7 +47,9 @@
 }
 */
 
-.propic,
+.propic {
+    max-width: 50%;
+}
 .comment-pic {
     max-width: 50%;
     /* Square */

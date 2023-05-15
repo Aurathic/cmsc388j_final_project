@@ -4,29 +4,15 @@
 <p>{{ error_msg }}</p>
 {% endif %}
 
-{# <div class="container-fluid">
-    {% if results %}
-    {% for result in results %}
-    <div class="media">
-        <!--<img src="{{ result.poster_url }}" class="mr-3 movie" alt="missing">-->
-        <div class="media-body">
-            <h5 class="mt-0">
-                <a href="{{ url_for('posts.item', item_type=item_type, item_id=result.id) }}">
-                    {{ result.description}}</a>
-                <!-- ({{ result.year }}) -->
-            </h5>
-        </div>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p>No results found.</p>
-    {% endif %}
-</div> #}
-
 <div class="d-flex flex-wrap align-items-stretch justify-content-center p-2">
     {% for result in results %}
     <div class="card m-2 p-2 expand-on-hover" style="width: 12rem; position: relative;">
-
+        {% if results_pic[result] %}
+            <p>attempting to load image</p>
+            <img src="data:image/png;base64,{{ results_pic[results] }}" class="mr-3 movie" alt="">
+        {% else %}
+            <img src="/static/noimagedefault.png" class="mr-3 movie" alt="">
+        {% endif %}
         {# <img src="{{ result.poster_url }}" class="card-img-top movie-poster" alt="{{ result.title }} poster"> #}
         <div class="card-body d-flex flex-column">
             <h5 class="card-title">

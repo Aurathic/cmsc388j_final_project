@@ -45,7 +45,8 @@ def create_app(test_config=None):
             'stackpath.bootstrapcdn.com',
             'code.jquery.com',
             'cdn.jsdelivr.net'
-        ]
+        ],
+        'img-src': '*'
     }
 
 

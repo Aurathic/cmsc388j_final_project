@@ -5,7 +5,13 @@
 
 <div class="row">
     <div class="col">
-        <img class="itempic" src="data:image/png;base64,{{item.image}}" alt="image">
+        {% if image %}
+        <p>attempting to load image</p>
+            <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
+        {% else %}
+            <img src="/static/noimagedefault.png" class="mr-3 movie" alt="">
+        {% endif %}
+        
     </div>
 </div>
 
