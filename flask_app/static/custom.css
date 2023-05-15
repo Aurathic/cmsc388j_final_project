@@ -108,11 +108,15 @@ form>input[type="submit"] {
 .camera-container {
     position: relative;
     display: inline-block;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
 #videoElement {
     width: 100%;
     height: auto;
+    margin: 0 auto;
 }
 
 #captureButton {

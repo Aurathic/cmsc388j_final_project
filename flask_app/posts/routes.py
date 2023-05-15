@@ -12,7 +12,7 @@ from flask_login import (
     logout_user,
     login_required,
 )
-from urllib import request
+from urllib import request as url_request
 
 
 from ..models import User, LostItem, FoundItem
@@ -98,7 +98,7 @@ def new(item_type, reference):
         if camera_img is not None:
             print('camera image not none!')
             # save data uri to image
-            with request.urlopen(camera_img) as response:
+            with url_request.urlopen(camera_img) as response:
                 data = response.read()
             with open('image.png', 'wb') as f:
                 f.write(data)

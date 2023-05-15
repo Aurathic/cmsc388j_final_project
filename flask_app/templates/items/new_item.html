@@ -129,9 +129,20 @@
         <form action="" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <div class="form-group">
+                {{ form.hidden_image(class="form-control form-control-lg") }}
+                {% if form.hidden_image.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.hidden_image.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
                 {{ form.picture.label(class="form-control-label")}}
                 {{ form.picture(class="form-control form-control-lg") }}
-                {{ form.hidden_image(class="form-control form-control-lg") }}
+
 
                 {% if form.picture.errors %}
                 <div class="alert alert-warning" role="alert">
@@ -140,9 +151,8 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-
-
             </div>
+
             <div class="form-group">
                 {{ form.item_description.label(class="form-control-label")}}
                 {{ form.item_description(class="form-control form-control-lg") }}
@@ -169,7 +179,7 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.submit }}
+                {{ form.submit(class="form-control form-control-lg") }}
             </div>
         </form>
     </div>
