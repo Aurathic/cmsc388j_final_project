@@ -1,5 +1,6 @@
 #imports
 from flask import Flask, render_template, request, redirect, url_for
+from flask_talisman import Talisman
 from flask_mongoengine import MongoEngine
 from flask_login import (
     LoginManager,
@@ -30,7 +31,28 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    '''
+    csp = {
+        'default-src': ['\'self\''],
+        'script-src': ['\'self\'', '*code.jquery.com/*', '*cdn.jsdelivr.net/*'],
+        'style-src': ['\'self\'', '*bootstrapcdn.com/*']
+    }
+    '''
+    csp = {
+        'default-src': [
+            '\'self\'',
+            #'\'unsafe-inline\'',
+            'stackpath.bootstrapcdn.com',
+            'code.jquery.com',
+            'cdn.jsdelivr.net'
+        ]
+    }
 
+
+
+    Talisman(app, content_security_policy=csp)
+    #Talisman(app, content_security_policy=csp, content_security_policy_report_uri='https://127.0.0.1:5000/csp_reports')
+    #Talisman(app)
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
         app.config.update(test_config)

@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -7,21 +8,6 @@ from .. import bcrypt
 from ..models import User, LostItem, FoundItem
 
 users = Blueprint("users", __name__)
-
-"""
-@users.route("/register", methods=['GET', 'POST'])
-def register():
-    pass
-
-@users.route("/login", methods=["GET", "POST"])
-def login():
-    pass
-
-@users.route("/logout")
-@login_required
-def logout():
-    pass
-"""
 
 @users.route("/register", methods=["GET", "POST"])
 def register():
@@ -105,3 +91,9 @@ def user_profile(username):
 
     username = user.get_id()
     return render_template("user_profile.html", username=username)
+
+@users.route("/csp_reports", methods=['POST'])
+def csp_reports():
+    print('reaching this method')
+    content = request.get_json(force=True)   # that's where the shoe pinches
+    print(json.dumps(content, indent=4, sort_keys=True))
