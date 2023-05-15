@@ -96,10 +96,14 @@ def user_profile(username):
 
     username = user.get_id()
 
+    is_verified = None
+    if '@terpmail.umd.edu' in user.email:
+        is_verified = 'UMD student verified'
+
     # pull all user posts
     lost_results = LostItem.objects(person=user)
     found_results = FoundItem.objects(person=user)
-    return render_template("user_profile.html", username=username, lost_results=lost_results, found_results=found_results)
+    return render_template("user_profile.html", username=username, lost_results=lost_results, found_results=found_results, is_verified=is_verified)
 
 '''
 # debugging talisman only

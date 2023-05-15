@@ -4,7 +4,10 @@
     <h1>Profile: {{username}}</h1>
     <div class="col">
         <small class="float-right">Lost item posts: {{lost_results|length}}</small><br>
-        <small class="float-right">Found item posts: {{found_results|length}}</small>
+        <small class="float-right">Found item posts: {{found_results|length}}</small><br>
+        {% if is_verified %}
+        <small class="float-right">{{ is_verified }}</small>
+        {% endif %}
     </div>
 </div>
 <div class="row">
