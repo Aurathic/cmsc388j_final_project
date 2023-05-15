@@ -83,6 +83,10 @@ def new(item_type, reference):
             item.item_pic.replace(img.stream, content_type=content_type)
 
         item.save()
+
+        # Update the reference in the other object
+        reference_item.reference = item
+
         return redirect(url_for("posts.item", item_type=item_type, item_id=item.id))
 
     return render_template(f"items/new_item.html", form=form, item_type=item_type)
