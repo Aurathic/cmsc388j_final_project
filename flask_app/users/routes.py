@@ -1,4 +1,3 @@
-import json
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -92,8 +91,12 @@ def user_profile(username):
     username = user.get_id()
     return render_template("user_profile.html", username=username)
 
+'''
+# debugging talisman only
+import json
 @users.route("/csp_reports", methods=['POST'])
 def csp_reports():
     print('reaching this method')
-    content = request.get_json(force=True)   # that's where the shoe pinches
+    content = request.get_json(force=True)
     print(json.dumps(content, indent=4, sort_keys=True))
+'''
