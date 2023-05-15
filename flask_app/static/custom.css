@@ -1,9 +1,12 @@
-/* 404 error page */ 
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+/* 404 error page */
 .form-container {
-    display:block;
+    display: block;
     justify-content: left;
     align-items: left;
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
@@ -32,3 +35,67 @@
     height:100vh;
 }
 */
+
+
+
+.card-body>img {
+    max-width: 200;
+}
+
+/*.media-list {
+    border-top: 1px dashed rgb(150, 150, 150);
+}
+
+.review-item {
+    border-bottom: 1px dashed #a5a5a5;
+}
+*/
+
+.propic,
+.comment-pic {
+    max-width: 50%;
+    /* Square */
+    object-fit: cover;
+    overflow: hidden;
+    height: 30vh;
+    width: 30vw;
+}
+
+.comment-pic {
+    max-width: 64px;
+    max-height: 64px;
+}
+
+.movie-poster {
+    /* Rectangle */
+    object-fit: cover;
+    overflow: hidden;
+    height: 40vh;
+    width: 100%;
+    background: url(http://goo.gl/vyAs27) no-repeat scroll 0 0;
+}
+
+.card {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+    /*padding: 14px 80px 18px 36px; */
+    /*margin: (10) !important; */
+}
+
+/* In query.html: expand on hover */
+.expand-on-hover:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    z-index: 100;
+}
+
+form>* {
+    margin-bottom: .5em;
+}
+
+form>input[type="submit"] {
+    width: 100%;
+}
