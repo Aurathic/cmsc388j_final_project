@@ -17,6 +17,49 @@
                     {% endfor %}
                 </div>
                 {% endif %}
+
+                {# <img src="{{ url_for('posts.video_feed') }}" height="80%"> #}
+                <video id="videoElement" autoplay></video>
+                <button id="captureButton">Capture</button>
+
+                <script>
+                    // Access the webcam stream and display it in the video element
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function (stream) {
+                            var videoElement = document.getElementById('videoElement');
+                            videoElement.srcObject = stream;
+                        })
+                        .catch(function (error) {
+                            console.error('Error accessing webcam:', error);
+                        });
+
+                    // Capture button click event
+                    var captureButton = document.getElementById('captureButton');
+                    captureButton.addEventListener('click', function () {
+                        var videoElement = document.getElementById('videoElement');
+
+                        // Create a canvas element to draw the frame
+                        var canvas = document.createElement('canvas');
+                        canvas.width = videoElement.videoWidth;
+                        canvas.height = videoElement.videoHeight;
+                        var context = canvas.getContext('2d');
+                        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                        // Convert the canvas content to a base64-encoded image
+                        var imageDataURL = canvas.toDataURL('image/png');
+
+                        // Send the image data to the server using an AJAX request
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/capture', true);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log('Image captured and saved');
+                            }
+                        };
+                        xhr.send(JSON.stringify({ image_data: imageDataURL }));
+                    });
+                </script>
             </div>
             <div class="form-group">
                 {{ form.item_description.label(class="form-control-label")}}

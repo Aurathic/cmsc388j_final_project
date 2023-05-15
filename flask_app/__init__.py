@@ -15,14 +15,18 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.utils import secure_filename
+
 from PIL import Image
+import cv2
 #from flaskext.uploads import UploadSet, configure_uploads
+
 
 # Global variables 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 mail = Mail()
+camera = None
 photos = UploadSet('photos', IMAGES)
 
 # import routes of blueprints
@@ -44,7 +48,7 @@ def create_app(test_config=None):
     csp = {
         'default-src': [
             '\'self\'',
-            #'\'unsafe-inline\'',
+            '\'unsafe-inline\'',
             'stackpath.bootstrapcdn.com',
             'code.jquery.com',
             'cdn.jsdelivr.net'
@@ -89,6 +93,7 @@ def create_app(test_config=None):
     app.register_blueprint(posts)
     app.register_error_handler(404, page_not_found)
 
+    camera = cv2.VideoCapture(0)
 
     app.config['UPLOADED_PHOTOS_DEST'] = '.'
     

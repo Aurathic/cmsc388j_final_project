@@ -1,5 +1,8 @@
 from enum import Enum
-from flask import Blueprint, render_template, url_for, redirect, request, flash
+import json
+import os
+import time
+from flask import Blueprint, render_template, url_for, redirect, request, flash, Response
 from flask_login import (
     LoginManager,
     current_user,
@@ -10,6 +13,8 @@ from flask_login import (
 
 from ..models import User, LostItem, FoundItem
 from ..forms import *
+from .. import camera
+import cv2
 
 # other imports
 import io
@@ -115,4 +120,87 @@ def item(item_type, item_id=None):
     return render_template(f"items/item.html", item_type=item_type, item=item)
 
 
-################# Helper ####################
+#### OPENCV STUFF ####
+# Adapted from https://towardsdatascience.com/camera-app-with-flask-and-opencv-bd147f6c0eec
+
+
+"""
+@posts.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+def gen_frames():  # generate frame by frame from camera
+    global out, capture, rec_frame
+    while True:
+        success, frame = camera.read() 
+        print(success, frame)
+        if success:
+            capture=0
+            now = datetime.datetime.now()
+            p = os.path.sep.join(['shots', "shot_{}.png".format(str(now).replace(":",''))])
+            cv2.imwrite(p, frame)
+            try:
+                ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+                frame = buffer.tobytes()
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            except Exception as e:
+                pass
+                
+        else:
+            pass
+
+@posts.route('/requests',methods=['POST','GET'])
+def tasks():
+    global switch,camera
+    if request.method == 'POST':
+    
+        global capture
+        capture=1
+    elif request.method=='GET':
+        return render_template('index.html')
+    return render_template('index.html')
+"""
+
+"""
+def generate():
+    while True:
+        # Capture a frame from the webcam
+        ret, frame = camera.read()
+        if not ret:
+            break
+
+        # Convert the frame to JPEG format
+        ret, jpeg = cv2.imencode('.jpg', frame)
+        frame = jpeg.tobytes()
+
+        # Yield the frame to the client as a Flask response
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@posts.route('/video_feed')
+def video_feed():
+    return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
+"""
+
+@posts.route('/capture',methods=['POST','GET'])
+def capture():
+    data = json.loads(request.data)
+    image_data = data['image_data']
+
+    # Save the captured image to a file
+    save_image(image_data)
+
+    return 'Image captured and saved'
+
+def save_image(image_data):
+    # Decode the base64-encoded image data
+    _, encoded = image_data.split(',', 1)
+    image_bytes = base64.b64decode(encoded)
+
+    # Define the path to save the image
+    image_path = 'captured_image.png'
+
+    # Save the image to the specified path
+    with open(image_path, 'wb') as f:
+        f.write(image_bytes)
