@@ -88,6 +88,14 @@ class RegistrationForm(FlaskForm):
         user = User.objects(email=email.data).first()
         if user is not None:
             raise ValidationError("Email is taken")
+        
+    def validate_password(self, password):
+        password = password.data
+        if not any(c.isdigit() for c in password):
+            raise ValidationError("You must have at least 1 number")
+        
+        if not ((any(c.isupper() for c in password)) or (any(c.islower() for c in password))):
+            raise ValidationError("You must have at least 1 letter")
 
 
 class LoginForm(FlaskForm):
@@ -109,12 +117,21 @@ class UpdateUsernameForm(FlaskForm):
                 raise ValidationError("That username is already taken")
 
 class ChangePasswordForm(FlaskForm):
-    new_password = StringField(
-        "New Password", validators=[InputRequired(), Length(min=1, max=40)]
+    new_password = PasswordField(
+        "New Password", validators=[InputRequired(), Length(min=10, max=25)]
     )
     confirm_new_password = PasswordField(
         "Confirm New Password", validators=[InputRequired(), EqualTo("new_password")]
     )
 
     psubmit = SubmitField("Change Password")
+
+    def validate_new_password(self, new_password):
+        new_password = new_password.data
+
+        if not any(c.isdigit() for c in new_password):
+            raise ValidationError("You must have at least 1 number")
+        
+        if not ((any(c.isupper() for c in new_password)) or (any(c.islower() for c in new_password))):
+            raise ValidationError("You must have at least 1 letter")
 
