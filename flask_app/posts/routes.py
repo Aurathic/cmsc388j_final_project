@@ -2,6 +2,7 @@ from enum import Enum
 import json
 import os
 import time
+from flask_mail import Message
 from flask import Blueprint, render_template, url_for, redirect, request, flash, Response
 from flask_login import (
     LoginManager,
@@ -13,7 +14,7 @@ from flask_login import (
 
 from ..models import User, LostItem, FoundItem
 from ..forms import *
-from .. import camera
+from .. import camera, mail
 import cv2
 
 # other imports
@@ -97,6 +98,34 @@ def new(item_type, reference):
         if reference_item is not None:
             reference_item.reference = item
             reference_item.save()
+
+            #after successful update, send email about post
+            other_user = reference_item.person
+            other_user_email = other_user.email
+            other_user_username = other_user.username
+
+            subject = 'Your item has been claimed' if item_type == "lost" else 'Your item has been found'
+            body_text = ""
+
+            if item_type == "lost":
+                subject = 'Your item has been claimed'
+                body_text = 'Hello ' + str(other_user_username)  \
+                + ',\n\nThis is a notification that your posted item was claimed. ' \
+                + 'Your item description: \n' \
+                + str(reference_item.description)
+            else:
+                subject = 'Your item has been found'
+                body_text = 'Hello ' + str(other_user_username)  \
+                + ',\n\nThis is a notification that your posted item was found.\n\n ' \
+                + 'Your item description: \n' \
+                + str(reference_item.description)
+
+
+            msg = Message(subject,
+                sender="lostandfound31415@gmail.com",
+                recipients=[other_user_email])
+            msg.body = body_text
+            mail.send(msg)            
 
         return redirect(url_for("posts.item", item_type=item_type, item_id=item.id))
 
