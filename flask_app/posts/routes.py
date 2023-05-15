@@ -55,7 +55,7 @@ def new_lost_item(reference):
     # TODO: Pass in previous fields
     form = LostItemForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and current_user.is_authenticated:
         lost_item = LostItem(
             person = current_user._get_current_object(),
             description = form.item_description.data,
@@ -64,7 +64,7 @@ def new_lost_item(reference):
             found_item = None,
             item_pic = None
         )
-            # handle picture data
+        # handle picture data
         img = form.picture.data
         if img is not None:
             filename = secure_filename(img.filename)
@@ -85,15 +85,27 @@ def new_found_item(reference):
     return render_template("items/new_found_item.html", form=form)
 
 
+@posts.route("/item/<item_type>/<item_id>", methods=["GET", "POST"])
+def item(item_type, item_id=None):
+    # Pass in lost item object from DB
+    if item_type == 'lost':
+        item = LostItem.objects(id=item_id).first()
+    else:
+        item = FoundItem.objects(id=item_id).first()
+    print(item)
+    return render_template("items/found_item.html", item=item)
 
+"""
 @posts.route("/lost_item/<item_id>", methods=["GET", "POST"])
 def lost_item(item_id=None):
     # Pass in found item object from DB
-    item = None
-    return render_template("items/lost_item.html", item)
+    
+    return render_template("items/lost_item.html", item=item)
 
 @posts.route("/found_item/<item_id>", methods=["GET", "POST"])
 def found_item(item_id=None):
     # Pass in lost item object from DB
-    item = None
-    return render_template("items/found_item.html", item)
+    item = FoundItem.objects(id=item_id).first()
+    print(item)
+    return render_template("items/found_item.html", item=item)
+"""

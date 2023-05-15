@@ -11,7 +11,7 @@
         <!--<img src="{{ result.poster_url }}" class="mr-3 movie" alt="missing">-->
         <div class="media-body">
             <h5 class="mt-0">
-                <a href="{{ url_for('posts.found_item', item=result.description) }}">
+                <a href="{{ url_for('posts.item', item_type=item_type, item_id=result.id) }}">
                     {{ result.description}}</a>
                 <!-- ({{ result.year }}) -->
             </h5>
