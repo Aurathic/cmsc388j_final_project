@@ -8,9 +8,11 @@
     <p>To update your account fill out a relevant form below.</p>
 </div>
 <div class="row">
+    {# Username Update Form #}
+    <h3>Change username</h3>
+</div>
+<div class="row">
     <div class="form-container">
-        {# Username Update Form #}
-        <h3>Change username</h3>
         <form method="POST" action="">
             {{ uname_form.csrf_token }}
             <div class="form-group">
@@ -31,9 +33,11 @@
     </div>
 </div>
 <div class="row">
+    {# Password Update Form #}
+    <h3>Change Password</h3>
+</div>
+<div class="row">
     <div class="form-container">
-        {# Password Update Form #}
-        <h3>Change Password</h3>
         <form method="POST" action="">
             {{ pw_form.csrf_token }}
             <div class="form-group">

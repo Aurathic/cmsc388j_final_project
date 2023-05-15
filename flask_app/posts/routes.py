@@ -100,3 +100,11 @@ def item(item_type, item_id=None):
     
     
     return render_template(f"items/item.html", item_type=item_type, item=item)
+
+
+################# Helper ####################
+def get_b64_img(username):
+    user = User.objects(username=username).first()
+    bytes_im = io.BytesIO(user.profile_pic.read())
+    image = base64.b64encode(bytes_im.getvalue()).decode()
+    return image
