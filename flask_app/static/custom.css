@@ -1,7 +1,11 @@
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins";
+/* @import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins"; */
 
 /* 404 error page */
+* {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
 .form-container {
     display: block;
     justify-content: left;
@@ -23,7 +27,7 @@
 .error-404-msg {
     max-width: 25%;
     display: inline-block;
-    text-align: center; 
+    text-align: center;
 }
 
 .error-404-page {
@@ -31,7 +35,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height:100vh;
+    height: 100vh;
 }
 
 .card-body>img {
@@ -50,6 +54,7 @@
 .propic {
     max-width: 50%;
 }
+
 .comment-pic {
     max-width: 50%;
     /* Square */
@@ -64,13 +69,15 @@
     max-height: 64px;
 }
 
-.movie-poster {
+.full-image {
     /* Rectangle */
     object-fit: cover;
     overflow: hidden;
-    height: 40vh;
+    max-height: 60vh;
     width: 100%;
-    background: url(http://goo.gl/vyAs27) no-repeat scroll 0 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* background: url(http://goo.gl/vyAs27) no-repeat scroll 0 0; */
 }
 
 .card {
