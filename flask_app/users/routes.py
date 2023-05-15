@@ -105,6 +105,10 @@ def user_profile(username):
     found_results = FoundItem.objects(person=user)
     return render_template("user_profile.html", username=username, lost_results=lost_results, found_results=found_results, is_verified=is_verified)
 
+@users.route("/about")
+def about():
+    return render_template("about.html")
+
 '''
 # debugging talisman only
 import json

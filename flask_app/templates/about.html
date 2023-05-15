@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+{% block content %}
+<h1>About</h1><br>
+<h2>Developers</h2><br>
+<p>Adam Levav, Jessica Lee</p><br>
+<h2>General Description</h2><br>
+<p>A website for lost and found at UMD, where students can submit items they found on campus
+    and other students can claim them. Students can make posts for items they have lost and also
+    make posts for items they have found that may belong to someone. When there is a pair of
+    posts for the same item, where one post is a post for lost item and the other is a post for found
+    item, the 2 posts can then be linked together and are "resolved". Posts marked as
+    resolved can appear in the user's post history, but will not appear in post searches.
+    Anyone can sign up for an account, but UMD students that sign up with terpmail email have
+    a special verification badge on their user profile.
+</p>
+
+<a href="{{url_for('posts.index')}}">Return to lost and found home</a>
+
+
+{% endblock %}
