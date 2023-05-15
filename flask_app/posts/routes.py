@@ -46,13 +46,9 @@ def query(query, item_type):
     # Find all (lost,found) items which have *not* been associated with a (found,lost) item
     # and contain the query as a substring in their description
     results=None
-    results_pic = {}
     print('check1')
     if item_type == 'lost':
         results = LostItem.objects(reference__exists=False, description__icontains=query)
-        print('check2')
-        for r in results:
-            print('check3 lost item id: ' + str(r.id))
     elif item_type == 'found':
         results = FoundItem.objects(reference__exists=False, description__icontains=query)
     else:
@@ -98,8 +94,9 @@ def new(item_type, reference):
         item.save()
 
         # Update the reference in the other object
-        reference_item.reference = item
-        reference_item.save()
+        if reference_item is not None:
+            reference_item.reference = item
+            reference_item.save()
 
         return redirect(url_for("posts.item", item_type=item_type, item_id=item.id))
 

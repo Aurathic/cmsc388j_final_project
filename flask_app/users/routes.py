@@ -95,7 +95,11 @@ def user_profile(username):
         return render_template("user_profile.html", error_msg=str(e))   
 
     username = user.get_id()
-    return render_template("user_profile.html", username=username)
+
+    # pull all user posts
+    lost_results = LostItem.objects(person=user)
+    found_results = FoundItem.objects(person=user)
+    return render_template("user_profile.html", username=username, lost_results=lost_results, found_results=found_results)
 
 '''
 # debugging talisman only
