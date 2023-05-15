@@ -17,7 +17,7 @@
             <img src="data:image/png;base64,{{ result.b64_image }}" class="mr-3 movie" alt="item picture">
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">
-                    <a class="stretched-link" href="{{ url_for('posts.item', item_type=item_type, item_id=result.id) }}">
+                    <a class="stretched-link" href="{{ url_for('posts.item', item_type='lost', item_id=result.id) }}">
                         {{ result.description }} </a>
                 </h5>
             </div>
@@ -36,7 +36,7 @@
             <img src="data:image/png;base64,{{ result.b64_image }}" class="mr-3 movie" alt="item picture">
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">
-                    <a class="stretched-link" href="{{ url_for('posts.item', item_type=item_type, item_id=result.id) }}">
+                    <a class="stretched-link" href="{{ url_for('posts.item', item_type='found', item_id=result.id) }}">
                         {{ result.description }} </a>
                 </h5>
             </div>
