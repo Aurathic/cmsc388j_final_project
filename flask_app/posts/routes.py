@@ -62,6 +62,7 @@ def query(query, item_type):
 
 @posts.route('/new/<item_type>', defaults={'reference': None}, methods=["GET", "POST"])
 @posts.route("/new/<item_type>/<reference>", methods=["GET", "POST"])
+@login_required
 def new(item_type, reference):
     # TODO: Pass in previous fields
     form = LostItemForm() if item_type == "lost" else FoundItemForm()
@@ -91,9 +92,9 @@ def new(item_type, reference):
         # handle picture data
         file_img = form.picture.data
 
-        print(form.hidden_image)
-        print(camera_img, "CAM")
-        print(file_img, "FILE")
+        #print(form.hidden_image)
+        #print(camera_img, "CAM")
+        #print(file_img, "FILE")
    
         if camera_img is not None:
             print('camera image not none!')
