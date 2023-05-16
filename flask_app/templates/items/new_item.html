@@ -120,13 +120,35 @@
                     //document.getElementById("picture").value = imageDataURL;
                     //document.getElementById("picture").value = imageDataBlob;
                     */
+
+                    /**
+                    * @param {String} HTML representing a single element
+                    * @return {Element}
+                    */
+                    function htmlToElement(html) {
+                        var template = document.createElement('template');
+                        html = html.trim(); // Never return a text node of whitespace as the result
+                        template.innerHTML = html;
+                        return template.content.firstChild;
+                    }
+
+                    // Add an alert indicating that the picture was taken.
+                    template = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        A picture has been taken and saved.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>`
+                    let parent = document.getElementsByClassName("col")[0]
+                    let item_form = document.getElementById("item_form")
+                    parent.insertBefore(htmlToElement(template), item_form);
                 });
 
 
             </script>
         </div>
 
-        <form action="" method="post" enctype="multipart/form-data">
+        <form id="item_form" action="" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
             <div class="form-group">
                 {{ form.hidden_image(class="form-control form-control-lg") }}
