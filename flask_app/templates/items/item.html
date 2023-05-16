@@ -19,6 +19,10 @@
                 <!-- Add description -->
                 {{item.location}}
             </div>
+            <div class="col">
+                <!-- Add description -->
+                <a href="{{url_for('users.user_profile', username=item.person.username)}}">{{item.person.username}}</a>
+            </div>
         </div>
     </div>
 </div>
