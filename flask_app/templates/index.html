@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col">
         <!-- SearchForm -->
-        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
+        <form action="/" class="form-inline my-2 my-lg-0 input-group" method="POST">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for message in messages %}
@@ -18,21 +18,30 @@
             {% endwith %}
 
             {{ form.csrf_token }}
-            {{ form.item_description(class="form-control", placeholder="Describe the item you've lost / found") }}
-
-            {% if form.item_description.errors %}
-            <div class="alert alert-warning" role="alert">
-                {% for error in form.item_description.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {{ form.search_lost(class="btn btn-outline-success") }}
-            {{ form.search_found(class="btn btn-outline-success") }}
-        </form>
+            {{ form.item_description(class="form-control form-control", placeholder="Describe the item you've lost" +
+            " / found") }}
     </div>
-    <!--
+
+    {% if form.item_description.errors %}
+    <div class="alert alert-warning" role="alert">
+        {% for error in form.item_description.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col">
+        {{ form.search_lost(class="btn btn-outline-success input-group") }}
+    </div>
+    <div class="col">
+        {{ form.search_found(class="btn btn-outline-success input-group") }}
+    </div>
+</div>
+
+</form>
+</div>
+<!--
     <div class="col">
         <h2>Please use the search bar to search for movies! Then you can review them </h2>
     </div>

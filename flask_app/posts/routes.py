@@ -96,7 +96,7 @@ def new(item_type, reference):
         #print(camera_img, "CAM")
         #print(file_img, "FILE")
    
-        if camera_img is not None:
+        if camera_img:
             print('camera image not none!')
             # save data uri to image
             with url_request.urlopen(camera_img) as response:
@@ -106,7 +106,7 @@ def new(item_type, reference):
 
             f = open('image.png', 'rb')
             item.item_pic.replace(f, content_type='png')
-        elif file_img is not None:
+        elif file_img:
             print('image not none!')
             print(file_img)
             filename = secure_filename(file_img.filename)
