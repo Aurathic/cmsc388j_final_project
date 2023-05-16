@@ -1,17 +1,31 @@
 {% extends "header.html" %}
 {% block content %}
 
-<div class="row">
-    <h2>Welcome back, {{current_user.get_id()}}!</h2>
+<div class="card">
+    <div style="margin:20px">
+        <div class="row">
+            <h2>Welcome back, <strong>{{current_user.get_id()}}</strong>!</h2>
+        </div>
+        <div class="row">
+            {# Link to see public facing profile of the current user #}
+            <a href="{{url_for('users.user_profile', username=current_user.get_id())}}">
+                <h5>Click here to see your public
+                    profile.</h5>
+            </a>
+        </div>
+
+        <div class="row">
+            <p>To update your account, fill out a relevant form below.</p>
+        </div>
+    </div>
 </div>
-<div class="row">
-    <p>To update your account fill out a relevant form below.</p>
-</div>
+
 <div class="row">
     {# Username Update Form #}
-    <h3>Change username</h3>
+
 </div>
-<div class="row">
+<div class="card">
+    <h3>Change username</h3>
     <div class="form-container">
         <form method="POST" action="">
             {{ uname_form.csrf_token }}
@@ -21,22 +35,23 @@
                 {% if uname_form.new_username.errors %}
                 <div class="alert alert-warning" role="alert">
                     {% for error in uname_form.new_username.errors %}
-                        <span>{{ error }}</span>
+                    <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ uname_form.submit(class="btn btn-primary") }}
+                {{ uname_form.submit(class="btn btn-primary input-group") }}
             </div>
         </form>
     </div>
 </div>
 <div class="row">
     {# Password Update Form #}
-    <h3>Change Password</h3>
+
 </div>
-<div class="row">
+<div class="card">
+    <h3>Change Password</h3>
     <div class="form-container">
         <form method="POST" action="">
             {{ pw_form.csrf_token }}
@@ -46,10 +61,10 @@
                 {% if pw_form.new_password.errors %}
                 <div class="alert alert-warning" role="alert">
                     {% for error in pw_form.new_password.errors %}
-                        <span>{{ error }}</span>
+                    <span>{{ error }}</span>
                     {% endfor %}
                 </div>
-                {% endif %}                     
+                {% endif %}
             </div>
             <div class="form-group">
                 {{ pw_form.confirm_new_password(class="form-control form-field", placeholder='Confirm password') }}
@@ -57,19 +72,16 @@
                 {% if pw_form.confirm_new_password.errors %}
                 <div class="alert alert-warning" role="alert">
                     {% for error in pw_form.confirm_new_password.errors %}
-                        <span>{{ error }}</span>
+                    <span>{{ error }}</span>
                     {% endfor %}
                 </div>
-                {% endif %}                     
+                {% endif %}
             </div>
-            {{ pw_form.psubmit(class="btn btn-primary") }}
+            {{ pw_form.psubmit(class="btn btn-primary input-group") }}
 
         </form>
     </div>
 </div>
 
-<div class="row">
-    {# Link to see public facing profile of the current user #}
-    <a href="{{url_for('users.user_profile', username=current_user.get_id())}}">Click here to see your public profile</a>
-</div>
+
 {% endblock %}

@@ -96,9 +96,8 @@ def user_profile(username):
 
     username = user.get_id()
 
-    is_verified = None
-    if '@terpmail.umd.edu' in user.email:
-        is_verified = 'UMD student verified'
+    is_verified = '@terpmail.umd.edu' in user.email
+    #is_verified = 'UMD student verified'
 
     # pull all user posts
     lost_results = LostItem.objects(person=user)

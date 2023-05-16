@@ -3,43 +3,47 @@
 <p> index html page</p>
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        <!-- SearchForm -->
-        <form action="/" class="form-inline my-2 my-lg-0 input-group" method="POST">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info">
-                {{ message }}
-            </div>
+<div class="card" style="margin: 50px 20px 20px 20px">
+    <div class="row">
+        <div class="col">
+            <!-- SearchForm -->
+            <form action="/" class="form-inline my-2 my-lg-0 input-group" method="POST">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                {{ form.csrf_token }}
+                {{ form.item_description(class="form-control form-control-lg", placeholder=
+                "Describe the item you've lost / found") }}
+        </div>
+
+        {% if form.item_description.errors %}
+        <div class="alert alert-warning" role="alert">
+            {% for error in form.item_description.errors %}
+            <span>{{ error }}</span>
             {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            {{ form.csrf_token }}
-            {{ form.item_description(class="form-control form-control", placeholder="Describe the item you've lost" +
-            " / found") }}
+        </div>
+        {% endif %}
     </div>
 
-    {% if form.item_description.errors %}
-    <div class="alert alert-warning" role="alert">
-        {% for error in form.item_description.errors %}
-        <span>{{ error }}</span>
-        {% endfor %}
+    <div class="row">
+        <div class="col">
+            {{ form.search_lost(class="btn btn-outline-success input-group form-control-lg") }}
+        </div>
+        <div class="col">
+            {{ form.search_found(class="btn btn-outline-success input-group form-control-lg") }}
+        </div>
     </div>
-    {% endif %}
+
+
+    </form>
 </div>
-<div class="row">
-    <div class="col">
-        {{ form.search_lost(class="btn btn-outline-success input-group") }}
-    </div>
-    <div class="col">
-        {{ form.search_found(class="btn btn-outline-success input-group") }}
-    </div>
-</div>
-
-</form>
 </div>
 <!--
     <div class="col">
