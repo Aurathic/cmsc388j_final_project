@@ -1,10 +1,10 @@
 {% extends "header.html" %}
 {% block content %}
 
-<div class="card">
-    <div style="margin:20px">
+<div class="card" style="padding: 20px 40px 20px 40px">
+    <div>
         <div class="row">
-            <h2>Welcome back, <strong>{{current_user.get_id()}}</strong>!</h2>
+            <h1>Welcome back, <strong>{{current_user.get_id()}}</strong>!</h1>
         </div>
         <div class="row">
             {# Link to see public facing profile of the current user #}
